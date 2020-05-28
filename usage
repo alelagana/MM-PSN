@@ -1,0 +1,3 @@
+ ~/anaconda3/bin/python predict_psn_subgroup.py sample_exp.csv sample_cnv.csv sample_trans.csv
+
+# It will generate the file Predicted_class.csv 
