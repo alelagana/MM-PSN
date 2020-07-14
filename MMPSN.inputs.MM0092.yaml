@@ -1,0 +1,9 @@
+TranslocationFile:  # type "File"
+    class: File
+    path: /Users/osmanw01/git/MM-PSN/test_input/predicted_translocations.csv
+ExpressionFile:  # type "File"
+    class: File
+    path: /Users/osmanw01/git/MM-PSN/test_input/vst_normalized_counts.csv
+CNVFile:  # type "File"
+    class: File
+    path: /Users/osmanw01/git/MM-PSN/test_input/CNV_risk_score_input_MM0092.csv

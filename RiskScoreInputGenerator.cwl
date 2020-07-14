@@ -7,28 +7,25 @@ hints:
     dockerPull: "sinaiiidgst/mmpsn:test"
 
 inputs:
-  ExpressionFile:
+  ParsedCNVs:
     type: File
     inputBinding:
       position: 1
-    label: "Expression TSV for samples you want to score."
 
-  CNVFile:
+  Cytoband:
     type: File
     inputBinding:
       position: 2
-    label: "CNV feature file for samples you want to score."
 
-  TranslocationFile:
-    type: File
+  SampleName:
+    type: string
     inputBinding:
       position: 3
-    label: "Translocation feature file for samples you want to score."
 
-baseCommand: ["python3", "/bin/predict_psn_subgroup.py"]
+baseCommand: ["Rscript", "/bin/Daphni2_CNV_Risk_Score_Input_Generation.R"]
 
 outputs:
   Predicted_Classes:
     type: File
     outputBinding:
-      glob: "Predicted_class.csv"
+      glob: "CNV_risk_score_input.txt"
