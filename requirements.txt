@@ -1,5 +1,5 @@
-sklearn
-xgboost
+scikit-learn==0.22.2.post1
+xgboost==0.90
 dummyPy
 joblib
 pandas

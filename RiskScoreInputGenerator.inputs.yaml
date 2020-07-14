@@ -1,0 +1,7 @@
+SampleName: "MM_0092_T2"  # type "string"
+ParsedCNVs:  # type "File"
+    class: File
+    path: /Users/osmanw01/git/MM-PSN/test_input/RiskScoreInputGenerator/parsed_cnvs.txt
+Cytoband:  # type "File"
+    class: File
+    path: /Users/osmanw01/git/MM-PSN/test_input/RiskScoreInputGenerator/cytoBand_hg38.txt

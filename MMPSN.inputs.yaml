@@ -1,0 +1,9 @@
+TranslocationFile:  # type "File"
+    class: File
+    path: /Users/osmanw01/git/MM-PSN/sample_trans.csv
+ExpressionFile:  # type "File"
+    class: File
+    path: /Users/osmanw01/git/MM-PSN/sample_exp.csv
+CNVFile:  # type "File"
+    class: File
+    path: /Users/osmanw01/git/MM-PSN/sample_cnv.csv

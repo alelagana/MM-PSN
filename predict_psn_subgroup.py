@@ -27,18 +27,20 @@ trans_file = sys.argv[3]
 trans=pd.read_csv(trans_file,index_col=0)
 cnv=pd.read_csv(cnv_file,index_col=0)
 exp=pd.read_csv(exp_file,index_col=0)
-
+print(trans)
 ### these files are the features required by this code for predicting the class
 
-with open('expression_features.tsv') as f:
+with open('/bin/expression_features.tsv') as f:
     exp_list = f.read().splitlines()
-with open('CNV_features.tsv') as f:
+with open('/bin/CNV_features.tsv') as f:
     cnv_list = f.read().splitlines()
-with open('translocation_features.tsv') as f:
+with open('/bin/translocation_features.tsv') as f:
     trans_list= f.read().splitlines()
     
 cc=cnv.columns.values.tolist()
 c=len(list(set(cc).intersection(set(cnv_list))))
+print(c)
+
 if c != 50:
         print("CNV Feature are missing. Please make sure all the features in  CNV_features.tsv is present in your Copy number variation input file ") # you will get an error
             
@@ -59,7 +61,7 @@ sel_trans=trans[trans_list]
 
 ### load the scaler and z score the vst normalised counts
 
-filename = 'scaler.sav'
+filename = '/bin/scaler.sav'
 sc = joblib.load(filename)
 sel_exp_scaled=sc.transform(sel_exp)
 sel_exp_scaled = pd.DataFrame(sel_exp_scaled, index=sel_exp.index, columns=sel_exp.columns)
@@ -71,7 +73,7 @@ names = ['0','1','2']
 sel_exp_bin=sel_exp_scaled.apply(lambda x: pd.cut(x, bins,labels=names), axis=0)
 
 ### OneHot encode the expression data
-filename = 'encoder.sav'
+filename = '/bin/encoder.sav'
 encoder1 = joblib.load(filename)
 exp_encoded=encoder1.transform(sel_exp_bin)
 exp_encoded.index=sel_exp_bin.index
@@ -82,7 +84,7 @@ names = ['0','1','2','3','4']
 sel_cnv_bin=sel_cnv.apply(lambda x: pd.cut(x, bins,labels=names), axis=0)
 
 ## onehot encoding of CNV data
-filename = 'encoder_cnv.sav'
+filename = '/bin/encoder_cnv.sav'
 encoder_cnv = joblib.load(filename)
 #encoder_cnv = load(open('onehotencoder_cnv.pkl', 'rb'))
 cnv_encoded=encoder_cnv.transform(sel_cnv_bin)
@@ -96,7 +98,7 @@ test = test.infer_objects()
 
 ### load the model and predict the sample and save the file
 
-filename = 'Model.sav'
+filename = '/bin/Model.sav'
 clf = joblib.load(filename)
 predic_test=clf.predict(test)
 predict_test_data = pd.DataFrame(predic_test, index=test.index)
