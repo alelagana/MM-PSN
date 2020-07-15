@@ -10,6 +10,6 @@ This classifier requires 109 expression features, 50 CNA features and 8 transloc
 
 The versions of the following packages were used to develop the Multiple Myeloma Patient Similarity Network
 
-xgboost: 0.90
-Python: 3.7.3
+xgboost: 0.90, 
+Python: 3.7.3, 
 Scikit: 0.22.2
