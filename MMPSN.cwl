@@ -4,7 +4,7 @@ class: CommandLineTool
 
 hints:
   DockerRequirement:
-    dockerPull: "sinaiiidgst/mmpsn:test"
+    dockerPull: "sinaiiidgst/mmpsn:latest2"
 
 inputs:
   ExpressionFile:

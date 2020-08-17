@@ -4,7 +4,7 @@ class: CommandLineTool
 
 hints:
   DockerRequirement:
-    dockerPull: "sinaiiidgst/mmpsn:final"
+    dockerPull: "sinaiiidgst/mmpsn:latest2"
 
 inputs:
   ParsedCNVs:
@@ -22,10 +22,21 @@ inputs:
     inputBinding:
       position: 3
 
+  PredictedTrans:
+    type: File
+    inputBinding:
+      position: 4
+
 baseCommand: ["Rscript", "/bin/Daphni2_CNV_Risk_Score_Input_Generation.R"]
 
 outputs:
   Predicted_Classes:
     type: File
     outputBinding:
-      glob: "CNV_risk_score_input.txt"
+      glob: "CNV_risk_score_input.csv"
+
+  Predicted_Trans_Final:
+    type: File
+    outputBinding:
+      glob: "predicted_trans_final.csv"
+

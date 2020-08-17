@@ -1,3 +1,15 @@
- ~/anaconda3/bin/python predict_psn_subgroup.py sample_exp.csv sample_cnv.csv sample_trans.csv
+ 
+#command to run
+~/anaconda3/bin/python predict_psn_subgroup.py sample_exp1.csv sample_cnv.csv sample_trans.csv Predicted_class.csv
 
-# It will generate the file Predicted_class.csv 
+#
+#Three input files
+#1. sample_exp1.csv
+#2. sample_cnv.csv
+#3. sample_trans.csv
+#
+#
+#One output file
+#1. Predicted_class.csv
+
+

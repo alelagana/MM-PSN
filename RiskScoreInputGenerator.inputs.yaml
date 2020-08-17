@@ -5,3 +5,6 @@ ParsedCNVs:  # type "File"
 Cytoband:  # type "File"
     class: File
     path: /Users/osmanw01/git/MM-PSN/test_input/RiskScoreInputGenerator/cytoBand_hg38.txt
+PredictedTrans:  # type "File"
+    class: File
+    path: /Users/osmanw01/git/MM-PSN/test_input/RiskScoreInputGenerator/predicted_translocations.csv
