@@ -1,9 +1,10 @@
 TranslocationFile:  # type "File"
     class: File
-    path: /Users/osmanw01/git/MM-PSN/test_input/MMPSN/predicted_trans_final.csv
+    path: /Users/osmanw01/git/MM-PSN/arv_out/predicted_trans_final.csv
 ExpressionFile:  # type "File"
     class: File
-    path: /Users/osmanw01/git/MM-PSN/test_input/MMPSN/vst_normalized_counts_noqs.csv
+    path: /Users/osmanw01/git/MM-PSN/arv_out/vst_normalized_counts_noqs_final.csv
 CNVFile:  # type "File"
     class: File
-    path: /Users/osmanw01/git/MM-PSN/test_input/MMPSN/CNV_risk_score_input.csv
+    path: /Users/osmanw01/git/MM-PSN/arv_out/CNV_risk_score_input.csv
+

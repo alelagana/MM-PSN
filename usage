@@ -12,4 +12,4 @@
 #One output file
 #1. Predicted_class.csv
 
-
+python predict_psn_subgroup.py waleed_files/vst_normalized_counts_noqs_final.csv waleed_files/CNV_risk_score_input.csv waleed_files/predicted_trans_final\ \(1\).csv pp1

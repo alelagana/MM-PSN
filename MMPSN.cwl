@@ -4,7 +4,7 @@ class: CommandLineTool
 
 hints:
   DockerRequirement:
-    dockerPull: "sinaiiidgst/mmpsn:latest2"
+    dockerPull: "sinaiiidgst/mmpsn:latest9"
 
 inputs:
   ExpressionFile:
@@ -24,6 +24,13 @@ inputs:
     inputBinding:
       position: 3
     label: "Translocation feature file for samples you want to score."
+
+  Output:
+    type: string
+    default: "Predicted_class.csv"
+    inputBinding:
+      position: 4
+      valueFrom: "Predicted_class.csv"
 
 baseCommand: ["python3", "/bin/predict_psn_subgroup.py"]
 

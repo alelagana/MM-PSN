@@ -1,4 +1,4 @@
-SampleName: "MM_0092_T2"  # type "string"
+SampleName: "MM_0017_T07"  # type "string"
 ParsedCNVs:  # type "File"
     class: File
     path: /Users/osmanw01/git/MM-PSN/test_input/RiskScoreInputGenerator/parsed_cnvs.txt
@@ -8,3 +8,12 @@ Cytoband:  # type "File"
 PredictedTrans:  # type "File"
     class: File
     path: /Users/osmanw01/git/MM-PSN/test_input/RiskScoreInputGenerator/predicted_translocations.csv
+VstNormCountsNoQs:  # type "File"
+    class: File
+    path: /Users/osmanw01/git/MM-PSN/test_input/RiskScoreInputGenerator/vst_normalized_counts_noqs.csv
+ExpressionFeaturesRem:  # type "File"
+    class: File
+    path: /Users/osmanw01/git/MM-PSN/expression_features_rem.tsv
+CNVFeatures:
+    class: File
+    path: /Users/osmanw01/git/MM-PSN/CNV_features.tsv

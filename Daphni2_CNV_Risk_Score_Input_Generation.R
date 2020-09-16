@@ -1,15 +1,12 @@
 #!/usr/bin/env Rscript
 args = commandArgs(trailingOnly=TRUE)
 library(GenomicRanges)
-
 allDuplicated <- function(vec){
   front <- duplicated(vec)
   back <- duplicated(vec, fromLast = TRUE)
   all_dup <- front + back > 0
   return(all_dup)
 }
-
-
 
 
 if (length(args)==0) {
@@ -19,11 +16,17 @@ if (length(args)==0) {
   cytoband <- args[2]
   samplename <- args[3]
   predicted_trans_input <- args[4]
+  expression_vector <- args[5]
+  expression_features <- args[6]
+  cnv_features <- args[7]
 
-   # parse_cnv <- "/data1/users/dmelnekoff/parsed_cnvs.txt"
-   # cytoband <- "/data1/users/dmelnekoff/cytoBand_hg38.txt"
-   # samplename <- "MM_0092_T2"
-   # predicted_trans_input <- "~/predicted_translocations.csv"
+    # parse_cnv <- "/data1/users/dmelnekoff/parsed_cnvs.txt"
+    # cytoband <- "/data1/users/dmelnekoff/cytoBand_hg38.txt"
+    # samplename <- "MM_0092_T2"
+    # predicted_trans_input <- "~/predicted_translocations.csv"
+    # expression_vector <- "~/vst_normalized_counts_noqs.csv"
+    # expression_features <- "~/expression_features_rem.tsv"
+    #  cnv_features <- "~/CNV_features.tsv"
 
   #### read in tables and set up columns
 
@@ -79,9 +82,10 @@ if (length(args)==0) {
                     "18q12.2","20p13","22q13.33")
 
 
+
+
   cnv_band_table_int <- t(as.matrix(cnv_band_table[,which(colnames(cnv_band_table) %in% bands_of_int)]))
   rownames(cnv_band_table_int) <- samplename
-
 
 
   #### look for duplicate band information (when CNV splits bands) ######
@@ -113,10 +117,14 @@ if (length(args)==0) {
   cnv_band_table_int[,bands_to_check] <- new_cnvs
 
 
+
+  CNV_features_tab <- read.table(cnv_features, sep = "\t", header = F)
+
+  cnv_band_table_int <- t(as.matrix(cnv_band_table_int[,as.character(CNV_features_tab$V1)]))
+
   rownames(cnv_band_table_int) <- samplename
 
-
-  write.csv(cnv_band_table_int,"CNV_risk_score_input.csv", sep = ",", col.names = NA, row.names = T, quote = F)
+  write.csv(cnv_band_table_int,"CNV_risk_score_input.csv", col.names = NA, row.names = T, quote = F)
 
 
   ##### Translocations#####
@@ -128,5 +136,16 @@ if (length(args)==0) {
   trans_feature_names <- c("SeqWGS_WHSC1_CALL","SeqWGS_CCND1_CALL","SeqWGS_MAF_CALL","SeqWGS_CCND3_CALL","SeqWGS_MYC_CALL","SeqWGS_CCND2_CALL","SeqWGS_MAFA_CALL","SeqWGS_MAFB_CALL")
   colnames(trans_input) <- trans_feature_names
   trans_input <- trans_input[,c("SeqWGS_WHSC1_CALL","SeqWGS_CCND3_CALL","SeqWGS_MYC_CALL","SeqWGS_MAFA_CALL","SeqWGS_CCND1_CALL","SeqWGS_CCND2_CALL","SeqWGS_MAF_CALL","SeqWGS_MAFB_CALL")]
-  write.csv(trans_input,"predicted_trans_final.csv", sep = ",", col.names = NA, row.names = T, quote = F)
+  write.table(trans_input,"predicted_trans_final.csv", sep = ",", col.names = T, row.names = T, quote = F)
+
+
+
+  ##### Expressions ######
+
+  expression_vector_tab <- read.table(expression_vector, sep = ",", header = T)
+  rownames(expression_vector_tab) <- expression_vector_tab$X
+  expression_vector_tab <- expression_vector_tab[,-1]
+  expression_features_tab <- read.table(expression_features, sep = "\t", header = F)
+  expression_vector_tab_final <- expression_vector_tab[,as.character(expression_features_tab$V1)]
+  write.csv(expression_vector_tab_final,"vst_normalized_counts_noqs_final.csv", row.names = T, col.names = NA)
   }
