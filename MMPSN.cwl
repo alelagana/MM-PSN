@@ -39,3 +39,4 @@ outputs:
     type: File
     outputBinding:
       glob: "Predicted_class.csv"
+
