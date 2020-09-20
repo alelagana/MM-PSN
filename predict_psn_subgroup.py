@@ -8,6 +8,7 @@ import os
 import re
 import sys
 import pandas as pd
+pd.options.mode.chained_assignment = None 
 import numpy as np
 from sklearn.svm import LinearSVC
 from sklearn.svm import SVC
@@ -101,5 +102,23 @@ clf = joblib.load(filename)
 predic_test=clf.predict(test)
 predict_test_data = pd.DataFrame(predic_test, index=test.index)
 predict_test_data.columns = ['subGroup']
-predict_test_data.to_csv("Predicted_class.csv")
+
+predict_test_data['Subgroup'] = '1a'
+predict_test_data['Subgroup'][predict_test_data['subGroup'] == 2] = '1b'
+predict_test_data['Subgroup'][predict_test_data['subGroup'] == 3] = '1c'
+predict_test_data['Subgroup'][predict_test_data['subGroup'] == 4] = '1d'
+predict_test_data['Subgroup'][predict_test_data['subGroup'] == 5] = '2a'
+predict_test_data['Subgroup'][predict_test_data['subGroup'] == 6] = '2b'
+predict_test_data['Subgroup'][predict_test_data['subGroup'] == 7] = '2c'
+predict_test_data['Subgroup'][predict_test_data['subGroup'] == 8] = '2d'
+predict_test_data['Subgroup'][predict_test_data['subGroup'] == 9] = '2e'
+predict_test_data['Subgroup'][predict_test_data['subGroup'] == 10] = '3a'
+predict_test_data['Subgroup'][predict_test_data['subGroup'] == 11] = '3b'
+predict_test_data['Subgroup'][predict_test_data['subGroup'] == 12] = '3c'
+predict_test_data['Subgroup'][predict_test_data['subGroup'] == 1] = '1a'
+
+df=predict_test_data['Subgroup']
+df = pd.DataFrame(df)
+
+df.to_csv("Predicted_class.csv")
 
