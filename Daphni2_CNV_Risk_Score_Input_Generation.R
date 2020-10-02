@@ -1,7 +1,6 @@
 #!/usr/bin/env Rscript
 args = commandArgs(trailingOnly=TRUE)
-suppressMessages(library(GenomicRanges))
-
+library(GenomicRanges)
 allDuplicated <- function(vec){
   front <- duplicated(vec)
   back <- duplicated(vec, fromLast = TRUE)
@@ -10,23 +9,12 @@ allDuplicated <- function(vec){
 }
 
 
-
-
 if (length(args)==0) {
   stop("At least one argument must be supplied.", call.=FALSE)
 } else if (length(args) > 0) {
   parse_cnv <- args[1]
   cytoband <- args[2]
   samplename <- args[3]
-
-  # parse_cnv <- "/data1/users/dmelnekoff/parsed_cnvs.txt"
-  # cytoband <- "/data1/users/dmelnekoff/cytoBand_hg38.txt"
-  # samplename <- "MM_0092_T2"
-  
-  #### read in tables and set up columns
-  
-  parsed_cnv_tab <- read.table(parse_cnv, sep = "\t", header = T)
-  cytoband_tab <- read.table(cytoband, sep = "\t", header = F)
   predicted_trans_input <- args[4]
   expression_vector <- args[5]
   expression_features <- args[6]
@@ -54,13 +42,10 @@ if (length(args)==0) {
 
   ##generate Granges Objects ######
 
-
   cytoband_GR <-  GRanges(seqnames = cytoband_tab$rawchr,
               ranges = IRanges(start = cytoband_tab$V2,
                                end = cytoband_tab$V3,
                                band = cytoband_tab$tag))
-
-
 
 
   parse_cnv_GR <- GRanges(seqnames = parsed_cnv_tab$chromosome,
@@ -68,12 +53,12 @@ if (length(args)==0) {
                                            end = parsed_cnv_tab$end,
                                            cnv = parsed_cnv_tab$real_cnv))
 
+
   ###find overlapping regions between objects #####
 
   Overlaps <- findOverlaps(parse_cnv_GR,cytoband_GR)
 
   #### make band x cnv table #####
-
 
   CNV <- parsed_cnv_tab$real_cnv[Overlaps@from]
   bands <- cytoband_tab$tag[Overlaps@to]
@@ -81,10 +66,7 @@ if (length(args)==0) {
   cnv_band_table <- t(as.matrix(CNV))
 
 
-
-
   ###filter bands for input #####
-
 
   bands_of_int <- c("1p36.33","1q21.1","1q21.3","1q22","1q44","2p14","2p13.3","2q22.1",
                     "3p21.31","3p21.1","3q23","3q26.2","4q31.3","4q35.1","5p15.33","5q11.2",
@@ -98,6 +80,8 @@ if (length(args)==0) {
                     "8q24.3","9p21.3","10q24.32","11q22.2","12p13.1","12q23.3","12q24.33","13q12.11",
                     "13q14.2","14q23.3","16p13.3","16q12.1","16q23.1","16q24.3","17p13.1","17q21.2","17q25.3",
                     "18q12.2","20p13","22q13.33")
+
+
 
 
   cnv_band_table_int <- t(as.matrix(cnv_band_table[,which(colnames(cnv_band_table) %in% bands_of_int)]))
@@ -165,13 +149,3 @@ if (length(args)==0) {
   expression_vector_tab_final <- expression_vector_tab[,as.character(expression_features_tab$V1)]
   write.csv(expression_vector_tab_final,"vst_normalized_counts_noqs_final.csv", row.names = T, col.names = NA)
   }
-
-  cnv_band_table_int[,bands_to_check] <- new_cnvs
-
-
-  rownames(cnv_band_table_int) <- samplename
-
-
-  write.table(cnv_band_table_int,"CNV_risk_score_input.txt", sep = ",", col.names = T, row.names = F, quote = F)
-
-}
