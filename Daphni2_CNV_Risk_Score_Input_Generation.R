@@ -21,11 +21,19 @@ if (length(args)==0) {
   expression_features <- args[6]
   cnv_features <- args[7]
 
+  # parse_cnv <- 'test_input/RiskScoreInputGenerator/failedRuns/FailedRun2/parsed_cnvs (1).txt'
+  # cytoband <- 'test_input/RiskScoreInputGenerator/failedRuns/FailedRun2/cytoBand_hg38.txt'
+  # samplename <- 'test_sample'
+  # predicted_trans_input <- 'test_input/RiskScoreInputGenerator/failedRuns/FailedRun2/predicted_translocations.csv'
+  # expression_vector <- "test_input/RiskScoreInputGenerator/failedRuns/FailedRun2/vst_normalized_counts.csv"
+  # expression_features <- "test_input/RiskScoreInputGenerator/failedRuns/FailedRun2/expression_features_rem.tsv"
+  # cnv_features <- 'test_input/RiskScoreInputGenerator/failedRuns/FailedRun2/CNV_features.tsv'
+
   # parse_cnv <- 'test_input/RiskScoreInputGenerator/failedRuns/FailedRun1/parsed_cnvs.txt'
   # cytoband <- 'test_input/RiskScoreInputGenerator/failedRuns/FailedRun1/cytoBand_hg38.txt'
   # samplename <- 'test_sample'
   # predicted_trans_input <- 'test_input/RiskScoreInputGenerator/failedRuns/FailedRun1/predicted_translocations.csv'
-  # expression_vector <- "waleed_files/vst_normalized_counts_noqs_final.csv"
+  # expression_vector <- "test_input/RiskScoreInputGenerator/failedRuns/FailedRun1/vst_normalized_counts.csv"
   # expression_features <- "test_input/RiskScoreInputGenerator/failedRuns/FailedRun1/expression_features_rem.tsv"
   # cnv_features <- 'test_input/RiskScoreInputGenerator/failedRuns/FailedRun1/CNV_features.tsv'
 
