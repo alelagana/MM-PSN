@@ -1,6 +1,7 @@
 #!/usr/bin/env Rscript
 args = commandArgs(trailingOnly=TRUE)
 library(GenomicRanges)
+
 allDuplicated <- function(vec){
   front <- duplicated(vec)
   back <- duplicated(vec, fromLast = TRUE)
@@ -20,13 +21,13 @@ if (length(args)==0) {
   expression_features <- args[6]
   cnv_features <- args[7]
 
-    # parse_cnv <- "/data1/users/dmelnekoff/parsed_cnvs.txt"
-    # cytoband <- "/data1/users/dmelnekoff/cytoBand_hg38.txt"
-    # samplename <- "MM_0092_T2"
-    # predicted_trans_input <- "~/predicted_translocations.csv"
-    # expression_vector <- "~/vst_normalized_counts_noqs.csv"
-    # expression_features <- "~/expression_features_rem.tsv"
-    #  cnv_features <- "~/CNV_features.tsv"
+  # parse_cnv <- 'test_input/RiskScoreInputGenerator/failedRuns/FailedRun1/parsed_cnvs.txt'
+  # cytoband <- 'test_input/RiskScoreInputGenerator/failedRuns/FailedRun1/cytoBand_hg38.txt'
+  # samplename <- 'test_sample'
+  # predicted_trans_input <- 'test_input/RiskScoreInputGenerator/failedRuns/FailedRun1/predicted_translocations.csv'
+  # expression_vector <- "waleed_files/vst_normalized_counts_noqs_final.csv"
+  # expression_features <- "test_input/RiskScoreInputGenerator/failedRuns/FailedRun1/expression_features_rem.tsv"
+  # cnv_features <- 'test_input/RiskScoreInputGenerator/failedRuns/FailedRun1/CNV_features.tsv'
 
   #### read in tables and set up columns
 
@@ -120,7 +121,7 @@ if (length(args)==0) {
 
   CNV_features_tab <- read.table(cnv_features, sep = "\t", header = F)
 
-  cnv_band_table_int <- t(as.matrix(cnv_band_table_int[,as.character(CNV_features_tab$V1)]))
+  cnv_band_table_int <- t(as.matrix(cnv_band_table_int[, colnames(cnv_band_table_int) %in% as.character(CNV_features_tab$V1)]))
 
   rownames(cnv_band_table_int) <- samplename
 
