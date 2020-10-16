@@ -3,6 +3,7 @@ import re
 import sys
 import pandas as pd
 import numpy as np
+pd.options.mode.chained_assignment = None
 from sklearn.svm import LinearSVC
 from sklearn.svm import SVC
 from itertools import cycle
@@ -126,5 +127,8 @@ predict_test_data['Subgroup'][predict_test_data['subGroup'] == 1] = '1a'
 df=predict_test_data['Subgroup']
 df = pd.DataFrame(df)
 
-df.to_csv("Predicted_class.csv")
+#df.to_csv("Predicted_class.csv")
+df.to_csv(out_file)
+
+
 
