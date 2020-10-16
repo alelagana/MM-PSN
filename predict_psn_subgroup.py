@@ -28,11 +28,11 @@ exp=pd.read_csv(exp_file,index_col=0)
 
 ### these files are the features required by this code for predicting the class
 
-with open('expression_features_rem.tsv') as f:
+with open('/bin/expression_features_rem.tsv') as f:
         exp_list = f.read().splitlines()
-with open('CNV_features.tsv') as f:
+with open('/bin/CNV_features.tsv') as f:
         cnv_list = f.read().splitlines()
-with open('translocation_features.tsv') as f:
+with open('/bin/translocation_features.tsv') as f:
         trans_list= f.read().splitlines()
 
 cc=cnv.columns.values.tolist()
@@ -52,7 +52,7 @@ sel_trans=trans[trans_list]
 
 ### load the scaler and z score the vst normalised counts
 
-filename = 'scaler1.sav'
+filename = '/bin/scaler1.sav'
 sc = joblib.load(filename)
 sel_exp_scaled=sc.transform(sel_exp)
 sel_exp_scaled = pd.DataFrame(sel_exp_scaled, index=sel_exp.index, columns=sel_exp.columns)
@@ -64,7 +64,7 @@ names = ['0','1','2']
 sel_exp_bin=sel_exp_scaled.apply(lambda x: pd.cut(x, bins,labels=names), axis=0)
 
 ### OneHot encode the expression data
-filename = 'encoder1.sav'
+filename = '/bin/encoder1.sav'
 encoder1 = joblib.load(filename)
 exp_encoded=encoder1.transform(sel_exp_bin)
 exp_encoded1 = pd.DataFrame(exp_encoded.toarray())
@@ -84,7 +84,7 @@ sel_cnv_bin=sel_cnv.apply(lambda x: pd.cut(x, bins,labels=names), axis=0)
 #sel_cnv.to_csv("sel_cnv_w")
 #sel_cnv_bin.to_csv("sel_cnv_bin_w")
 ## onehot encoding of CNV data
-filename = 'encoder_cnv1.sav'
+filename = '/bin/encoder_cnv1.sav'
 encoder_cnv = joblib.load(filename)
 cnv_encoded=encoder_cnv.transform(sel_cnv_bin)
 
@@ -104,12 +104,11 @@ test.to_csv("test")
 
 ### load the model and predict the sample and save the file
 
-filename = 'Model1.sav'
+filename = '/bin/Model1.sav'
 clf = joblib.load(filename)
 predic_test=clf.predict(test)
 predict_test_data = pd.DataFrame(predic_test, index=test.index)
 predict_test_data.columns = ['subGroup']
-
 predict_test_data['Subgroup'] = '1a'
 predict_test_data['Subgroup'][predict_test_data['subGroup'] == 2] = '1b'
 predict_test_data['Subgroup'][predict_test_data['subGroup'] == 3] = '1c'

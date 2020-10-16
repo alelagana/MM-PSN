@@ -4,7 +4,7 @@ class: CommandLineTool
 
 hints:
   DockerRequirement:
-    dockerPull: "sinaiiidgst/mmpsn:latest9"
+    dockerPull: "sinaiiidgst/mmpsn:898fad920d3c2f71973c333c8d77e0e4265299e3"
 
 inputs:
   ExpressionFile:
@@ -39,4 +39,3 @@ outputs:
     type: File
     outputBinding:
       glob: "Predicted_class.csv"
-
