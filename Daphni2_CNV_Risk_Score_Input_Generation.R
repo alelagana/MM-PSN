@@ -1,6 +1,6 @@
 #!/usr/bin/env Rscript
 args = commandArgs(trailingOnly=TRUE)
-suppressMessages(library(GenomicRanges))
+library(GenomicRanges)
 
 allDuplicated <- function(vec){
   front <- duplicated(vec)
@@ -18,27 +18,18 @@ if (length(args)==0) {
   parse_cnv <- args[1]
   cytoband <- args[2]
   samplename <- args[3]
-
-  # parse_cnv <- "/data1/users/dmelnekoff/parsed_cnvs.txt"
-  # cytoband <- "/data1/users/dmelnekoff/cytoBand_hg38.txt"
-  # samplename <- "MM_0092_T2"
-  
-  #### read in tables and set up columns
-  
-  parsed_cnv_tab <- read.table(parse_cnv, sep = "\t", header = T)
-  cytoband_tab <- read.table(cytoband, sep = "\t", header = F)
   predicted_trans_input <- args[4]
   expression_vector <- args[5]
   expression_features <- args[6]
   cnv_features <- args[7]
 
-    # parse_cnv <- "/data1/users/dmelnekoff/parsed_cnvs.txt"
-    # cytoband <- "/data1/users/dmelnekoff/cytoBand_hg38.txt"
-    # samplename <- "MM_0092_T2"
-    # predicted_trans_input <- "~/predicted_translocations.csv"
-    # expression_vector <- "~/vst_normalized_counts_noqs.csv"
-    # expression_features <- "~/expression_features_rem.tsv"
-    #  cnv_features <- "~/CNV_features.tsv"
+      # parse_cnv <- "~/MM_0008_T2_files//parsed_cnvs.txt"
+      # cytoband <- "~/MM_0008_T2_files/cytoBand_hg38.txt"
+      # samplename <- "MM_0008_T2"
+      # predicted_trans_input <- "~/MM_0008_T2_files/predicted_translocations.csv"
+      # expression_vector <- "~/MM_0008_T2_files/vst_normalized_counts.csv"
+      # expression_features <- "~/MM_0008_T2_files/expression_features_rem.tsv"
+      #  cnv_features <- "~/MM_0008_T2_files/CNV_features.tsv"
 
   #### read in tables and set up columns
 
@@ -54,13 +45,10 @@ if (length(args)==0) {
 
   ##generate Granges Objects ######
 
-
   cytoband_GR <-  GRanges(seqnames = cytoband_tab$rawchr,
               ranges = IRanges(start = cytoband_tab$V2,
                                end = cytoband_tab$V3,
                                band = cytoband_tab$tag))
-
-
 
 
   parse_cnv_GR <- GRanges(seqnames = parsed_cnv_tab$chromosome,
@@ -68,12 +56,12 @@ if (length(args)==0) {
                                            end = parsed_cnv_tab$end,
                                            cnv = parsed_cnv_tab$real_cnv))
 
+
   ###find overlapping regions between objects #####
 
   Overlaps <- findOverlaps(parse_cnv_GR,cytoband_GR)
 
   #### make band x cnv table #####
-
 
   CNV <- parsed_cnv_tab$real_cnv[Overlaps@from]
   bands <- cytoband_tab$tag[Overlaps@to]
@@ -81,10 +69,7 @@ if (length(args)==0) {
   cnv_band_table <- t(as.matrix(CNV))
 
 
-
-
   ###filter bands for input #####
-
 
   bands_of_int <- c("1p36.33","1q21.1","1q21.3","1q22","1q44","2p14","2p13.3","2q22.1",
                     "3p21.31","3p21.1","3q23","3q26.2","4q31.3","4q35.1","5p15.33","5q11.2",
@@ -100,8 +85,11 @@ if (length(args)==0) {
                     "18q12.2","20p13","22q13.33")
 
 
+
+
   cnv_band_table_int <- t(as.matrix(cnv_band_table[,which(colnames(cnv_band_table) %in% bands_of_int)]))
   rownames(cnv_band_table_int) <- samplename
+
 
 
   #### look for duplicate band information (when CNV splits bands) ######
@@ -134,13 +122,27 @@ if (length(args)==0) {
 
 
 
+
   CNV_features_tab <- read.table(cnv_features, sep = "\t", header = F)
+
+  missing_bands <- setdiff(CNV_features_tab$V1,colnames(cnv_band_table_int))
+
+  if(length(missing_bands) > 0) {
+    diploid_vec <- rep(2,times = length(missing_bands))
+    names(diploid_vec) <- missing_bands
+    old_colnames <- colnames(cnv_band_table_int)
+    cnv_band_table_int <- cbind(cnv_band_table_int,diploid_vec)
+    colnames(cnv_band_table_int) <- c(old_colnames,missing_bands)
+    }
+
+
+
 
   cnv_band_table_int <- t(as.matrix(cnv_band_table_int[,as.character(CNV_features_tab$V1)]))
 
   rownames(cnv_band_table_int) <- samplename
 
-  write.csv(cnv_band_table_int,"CNV_risk_score_input.csv", col.names = NA, row.names = T, quote = F)
+  write.table(cnv_band_table_int,"CNV_risk_score_input.csv", sep = ",", col.names = T, row.names = F, quote = F)
 
 
   ##### Translocations#####
@@ -165,13 +167,3 @@ if (length(args)==0) {
   expression_vector_tab_final <- expression_vector_tab[,as.character(expression_features_tab$V1)]
   write.csv(expression_vector_tab_final,"vst_normalized_counts_noqs_final.csv", row.names = T, col.names = NA)
   }
-
-  cnv_band_table_int[,bands_to_check] <- new_cnvs
-
-
-  rownames(cnv_band_table_int) <- samplename
-
-
-  write.table(cnv_band_table_int,"CNV_risk_score_input.txt", sep = ",", col.names = T, row.names = F, quote = F)
-
-}
