@@ -25,7 +25,7 @@ if (length(args)==0) {
 
       # parse_cnv <- "~/MM_0008_T2_files//parsed_cnvs.txt"
       # cytoband <- "~/MM_0008_T2_files/cytoBand_hg38.txt"
-      # samplename <- "MM_0008_T2"
+      # samplename <- "MM_0008_T02"
       # predicted_trans_input <- "~/MM_0008_T2_files/predicted_translocations.csv"
       # expression_vector <- "~/MM_0008_T2_files/vst_normalized_counts.csv"
       # expression_features <- "~/MM_0008_T2_files/expression_features_rem.tsv"
@@ -142,7 +142,7 @@ if (length(args)==0) {
 
   rownames(cnv_band_table_int) <- samplename
 
-  write.table(cnv_band_table_int,"CNV_risk_score_input.csv", sep = ",", col.names = T, row.names = F, quote = F)
+  write.csv(cnv_band_table_int,"CNV_risk_score_input.csv",  col.names = NULL, row.names = T, quote = F)
 
 
   ##### Translocations#####
@@ -154,7 +154,7 @@ if (length(args)==0) {
   trans_feature_names <- c("SeqWGS_WHSC1_CALL","SeqWGS_CCND1_CALL","SeqWGS_MAF_CALL","SeqWGS_CCND3_CALL","SeqWGS_MYC_CALL","SeqWGS_CCND2_CALL","SeqWGS_MAFA_CALL","SeqWGS_MAFB_CALL")
   colnames(trans_input) <- trans_feature_names
   trans_input <- trans_input[,c("SeqWGS_WHSC1_CALL","SeqWGS_CCND3_CALL","SeqWGS_MYC_CALL","SeqWGS_MAFA_CALL","SeqWGS_CCND1_CALL","SeqWGS_CCND2_CALL","SeqWGS_MAF_CALL","SeqWGS_MAFB_CALL")]
-  write.table(trans_input,"predicted_trans_final.csv", sep = ",", col.names = T, row.names = T, quote = F)
+  write.csv(trans_input,"predicted_trans_final.csv",  col.names = NULL, row.names = T, quote = F)
 
 
 
@@ -165,5 +165,5 @@ if (length(args)==0) {
   expression_vector_tab <- expression_vector_tab[,-1]
   expression_features_tab <- read.table(expression_features, sep = "\t", header = F)
   expression_vector_tab_final <- expression_vector_tab[,as.character(expression_features_tab$V1)]
-  write.csv(expression_vector_tab_final,"vst_normalized_counts_noqs_final.csv", row.names = T, col.names = NA)
+  write.csv(expression_vector_tab_final,"vst_normalized_counts_noqs_final.csv", row.names = T, col.names = NULL, quote = F)
   }

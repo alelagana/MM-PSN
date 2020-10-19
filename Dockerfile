@@ -11,14 +11,6 @@ RUN apt-get update -qq \
  vim \
  libgsl-dev \
  && apt-get clean \
- && rm -rf /var/lib/apt/lists/ \
- && rm -rf /tmp/downloaded_packages/ /tmp/*.rds
-
-# Install devtools and testthat
-RUN install2.r --error \
-    devtools \
-    testthat \
-    gsl
 
 # Install some required libraries
 RUN Rscript -e 'install.packages("BiocManager", dependencies=TRUE)'
