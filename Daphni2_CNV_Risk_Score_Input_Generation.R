@@ -23,13 +23,13 @@ if (length(args)==0) {
   expression_features <- args[6]
   cnv_features <- args[7]
 
-      # parse_cnv <- "~/MM_0008_T2_files//parsed_cnvs.txt"
-      # cytoband <- "~/MM_0008_T2_files/cytoBand_hg38.txt"
-      # samplename <- "MM_0008_T02"
+      #  parse_cnv <- "~/parsed_cnvs.txt"
+      #  cytoband <- "~/MM_0008_T2_files/cytoBand_hg38.txt"
+      #  samplename <- "MM_0008_T02"
       # predicted_trans_input <- "~/MM_0008_T2_files/predicted_translocations.csv"
       # expression_vector <- "~/MM_0008_T2_files/vst_normalized_counts.csv"
       # expression_features <- "~/MM_0008_T2_files/expression_features_rem.tsv"
-      #  cnv_features <- "~/MM_0008_T2_files/CNV_features.tsv"
+      #   cnv_features <- "~/MM_0008_T2_files/CNV_features.tsv"
 
   #### read in tables and set up columns
 
@@ -130,6 +130,7 @@ if (length(args)==0) {
   if(length(missing_bands) > 0) {
     diploid_vec <- rep(2,times = length(missing_bands))
     names(diploid_vec) <- missing_bands
+    diploid_vec <- t(diploid_vec)
     old_colnames <- colnames(cnv_band_table_int)
     cnv_band_table_int <- cbind(cnv_band_table_int,diploid_vec)
     colnames(cnv_band_table_int) <- c(old_colnames,missing_bands)
